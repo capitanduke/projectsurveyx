@@ -1,0 +1,21 @@
+model:
+    resource: "@ModelBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+mantenimiento:
+    resource: "@MantenimientoBundle/Controller/"
+    type:     annotation
+    prefix:   /mantenimiento
+
+home:
+    resource: "@HomeBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

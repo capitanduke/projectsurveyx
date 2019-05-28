@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+
+<div class="container">
+
+    <div class="col-md-12">
+
+
+        {% for usus in users %}
+            <h1 style="color:white;">{{ usus.username }} </h1>
+        {% endfor %}
+
+        {% for us in usuarios %}
+            <h1 style="color:white;">{{ us.categoria }} </h1>
+        {% endfor %}
+
+
+    </div>
+
+
+</div>
+
+
+
+{% endblock %}

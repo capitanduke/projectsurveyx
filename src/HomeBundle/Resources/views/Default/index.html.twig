@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+    {% block stylesheets %}
+
+        <style>
+            .page-content-wrapper .page-content {
+                padding: 0px 0px 0px 0px;
+            }
+
+            .backImg {
+                height:50%;
+            }
+
+            .img-portada {
+                display: block;
+                max-width: 100%;
+                height: auto;
+            }
+
+        </style>
+    {% endblock %}
+
+ {% block body %}
+     <!-- BEGIN CONTENT -->
+     <div class="page-content-wrapper">
+         <div class="page-content">
+             <img src="{{ asset('assets/img/portada.jpg') }}" class="img-responsive backImg img-portada" alt="Valoración RP">
+         </div>
+     </div>
+     <!-- END CONTENT -->
+ {% endblock %}
