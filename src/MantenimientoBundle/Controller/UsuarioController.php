@@ -36,6 +36,31 @@ class UsuarioController extends Controller
     }
 
 
+    /**
+     * @Route("/show/{id}", name="showUser")
+     */
+    public function showUser(Request $request, $id)
+    {
+        
+        //var_dump($id);die;
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('ModelBundle:User')->findOneBy(array('id' => $id ));
+        //$user = $em->getRepository('ModelBundle:User')->findAll();
+        
+
+
+        $usuarioDetails = array(
+            'id' => $user->getId(),
+        );
+        
+        
+
+        return $this->render('MantenimientoBundle:Usuario:show.html.twig', array(
+            'user' => $user, 'usuarioDetails' => $usuarioDetails,
+        ));
+    }
+
+
 }
 
 

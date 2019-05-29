@@ -8,31 +8,24 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="user")
- */
+* @ORM\Entity
+* @ORM\Table(name="fos_user")
+*/
 class User extends BaseUser implements UserInterface
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     protected $id;
 
 
     /**
-     * @ORM\OneToOne(targetEntity="Usuario", inversedBy="user")
-     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-     */
-    private $usuario;
-
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
+    * Get id.
+    *
+    * @return int
+    */
     public function getId()
     {
         return $this->id;
@@ -40,8 +33,8 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * @param mixed $id
-     */
+    * @param mixed $id
+    */
     public function setId($id)
     {
         $this->id = $id;

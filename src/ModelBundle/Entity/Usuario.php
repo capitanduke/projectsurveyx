@@ -22,10 +22,7 @@ class Usuario
     private $id;
 
 
-    /**
-     * @ORM\OneToOne(targetEntity="User", mappedBy="usuario")
-     */
-    private $user;
+    
 
     /**
      * Usuario constructor.
