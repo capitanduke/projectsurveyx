@@ -5,11 +5,9 @@ namespace ModelBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Usuario
- *
- * @ORM\Table(name="usuario")
- * @ORM\Entity(repositoryClass="ModelBundle\Repository\UsuarioRepository")
- */
+* @ORM\Entity
+* @ORM\Table(name="usuario")
+*/
 class Usuario
 {
     /**
@@ -22,7 +20,11 @@ class Usuario
     private $id;
 
 
-    
+    /**
+    * @ORM\OneToOne(targetEntity="User", mappedBy="usuario")
+    */
+    private $user;
+
 
     /**
      * Usuario constructor.
