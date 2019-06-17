@@ -22,10 +22,10 @@ class User extends BaseUser implements UserInterface
     protected $id;
 
     /**
-    * @ORM\OneToOne(targetEntity="Usuario", inversedBy="user")
-    * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+    * @ORM\OneToOne(targetEntity="Categoria", inversedBy="user")
+    * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
     */
-    private $usuario;
+    private $categoria;
 
 
     /**
@@ -47,16 +47,16 @@ class User extends BaseUser implements UserInterface
     /**
      * @return mixed
      */
-    public function getUsuario()
+    public function getCategoria()
     {
-        return $this->usuario;
+        return $this->categoria;
     }
 
     /**
-     * @param mixed $usuario
+     * @param mixed $categoria
      */
-    public function setUsuario($usuario)
+    public function setCategoria($categoria)
     {
-        $this->usuario = $usuario;
+        $this->categoria = $categoria;
     }
 }

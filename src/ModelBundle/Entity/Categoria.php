@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
 * @ORM\Entity
-* @ORM\Table(name="usuario")
+* @ORM\Table(name="categoria")
 */
-class Usuario
+class Categoria
 {
     /**
      * @var int
@@ -19,15 +19,13 @@ class Usuario
      */
     private $id;
 
-
     /**
-    * @ORM\OneToOne(targetEntity="User", mappedBy="usuario")
+    * @ORM\OneToOne(targetEntity="User", mappedBy="categoria")
     */
     private $user;
 
-
     /**
-     * Usuario constructor.
+     * Categoria constructor.
      */
     public function __construct()
     {
