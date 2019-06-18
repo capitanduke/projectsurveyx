@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use ModelBundle\Entity\User;
 use ModelBundle\Entity\Categoria;
+use ModelBundle\Entity\Followers;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
@@ -35,6 +36,32 @@ class UsuarioController extends Controller
 
         return $this->render('MantenimientoBundle:Usuario:usuarios.html.twig', array(
             'users' => $users,
+            
+        ));
+    }
+
+    /**
+     * @Route("/following/{id}", name="followingAction")
+     */
+    public function followingAction(Request $request, $id)
+    {
+        $follower = new Followers();
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('ModelBundle:User')->findOneBy(array('id' => $id ));
+
+        //$em = $this->getDoctrine()->getManager();
+        $follower = $em->getRepository('ModelBundle:Followers');
+
+        //var_dump($em);die;
+
+        $follower->setUsername();
+        $em->getRepository('ModelBundle:Followers')->persist($user);
+        $em->flush();
+
+       
+
+        return $this->render('MantenimientoBundle:Usuario:usuarios.html.twig', array(
+            'follower' => $follower,
             
         ));
     }

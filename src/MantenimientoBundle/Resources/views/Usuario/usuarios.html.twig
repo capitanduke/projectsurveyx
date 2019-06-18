@@ -10,25 +10,19 @@
 
 
         {% for usus in users %}
-            <a href="{{ path('showUser', {'id': usus.id}) }}">USER
+            <a href="{{ path('showUser', {'id': usus.id}) }}">
                 <h1 style="color:white;">{{ usus.username }} - {{ usus.id }} </h1>
             </a>
             <a href="{{ path('editUser', {'id': usus.id}) }}">
                 <h1 style="color:white;">EDIT </h1>
             </a>
+            <a href="{{ path('followingAction', {'id': usus.id}) }}">
+                <h1 style="color:white;">FOLLOW </h1>
+            </a>
             
         {% endfor %}
 
 
-        {#{% for ususios in usuarios %}
-            <a href="{{ path('showUser', {'id': ususios.id}) }}">usuario
-                <h1 style="color:white;">{{ ususios.categoria }} - {{ ususios.id }} </h1>
-            </a>
-            <a href="{{ path('editUser', {'id': ususios.id}) }}">
-                <h1 style="color:white;">EDIT </h1>
-            </a>
-            
-        {% endfor %}#}
 
 
     </div>
