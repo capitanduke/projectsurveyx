@@ -41,29 +41,83 @@ class UsuarioController extends Controller
     }
 
     /**
-     * @Route("/following/{id}", name="followingAction")
+     * @Route("/following/", name="followingAction")
+     * @param Request $request
+     * @return Response
      */
-    public function followingAction(Request $request, $id)
+    public function followingAction(Request $request)
     {
-        $follower = new Followers();
+
+        var_dump($request->request->get('idUsuario'));die;
+        $usuario->setNombre($request->request->get('idUsuario'));
+        
+    
+
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('ModelBundle:User')->findOneBy(array('id' => $id ));
+        $user = $em->getRepository('GOCModelBundle:User')->find($request->request->get('idUsuario'));
 
-        //$em = $this->getDoctrine()->getManager();
-        $follower = $em->getRepository('ModelBundle:Followers');
 
-        //var_dump($em);die;
+        var_dump('idUsuario');die;
+        //$user = $em->getRepository('ModelBundle:User')->findOneBy(array('idUsuario' => $id ));
+        //$seguidor = $em->getRepository('ModelBundle:Followers')->findOneBy(array('id' => $id ));
+        //$seguido = $em->getRepository('ModelBundle:Followers')->findOneBy(array('id' => $id ));
 
-        $follower->setUsername();
-        $em->getRepository('ModelBundle:Followers')->persist($user);
-        $em->flush();
+    Try {
+        
+        
+
+        $seguidor = $this->get('security.token_storage')->getToken()->getUser();
+        $seguidorFinal = $em->getRepository('ModelBundle:Followers')->findOneBy(array('id' => $seguidor ));
 
        
+        
+        //if($seguidor = $seguidorFinal->getUserId()){
 
-        return $this->render('MantenimientoBundle:Usuario:usuarios.html.twig', array(
-            'follower' => $follower,
+            //var_dump($seguidor->getUsername());die;
+
+            $elseguido = $seguidorFinal->getSeguidoId();
+            $aseguir = $user->getId();
+
+
+            $follower = new Followers();
+            $follower->setUsername($seguidor->getUsername());
+            $follower->setUserId($seguidor->getId());
+            $follower->setSeguidoId($user->getId());
+            $em->persist($follower);
+            $em->flush();
+            $response = array("code" => 100, "success" => true);
+            $response = new Response(json_encode($response));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+
+            /*if($elseguido != $aseguir ){
+                var_dump("ya lo sigues");die;
+            }else{
+                $follower = new Followers();
+                $follower->setUsername($seguidor->getUsername());
+                $follower->setUserId($seguidor->getId());
+                $follower->setSeguidoId($user->getId());
+                $em->persist($follower);
+                $em->flush();
+                $response = array("code" => 100, "success" => true);
+                $response = new Response(json_encode($response));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            } */ 
             
-        ));
+        //}
+    } 
+    Catch(Exception $e)
+    {
+
+        $response = array("code" => 100, "success" => false, "error" => $e);
+        $response = new Response(json_encode($response));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+        return $this->redirectToRoute('usuariosMantenimiento');
+        //return $this->render('MantenimientoBundle:Usuario:usuarios.html.twig');
     }
 
     /**

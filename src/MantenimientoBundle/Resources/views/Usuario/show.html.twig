@@ -8,6 +8,16 @@
 
     <div class="col-md-12">
 
+
+
+      <form class="form-horizontal" role="form" id="formEditMantenimientoUserDetails" action="{{ path('followingAction') }}" method="POST">
+
+        <input type="hidden" id="idUsuario" name="idUsuario" value="{{ user.id }}">
+
+      </form>
+
+    
+
         <p style="color:white;"><b>ID:</b> {{ user.id }} </p>
         <p style="color:white;"><b>Email:</b> {{ user.email }} </p>
         {% if user.categoria == false %}
@@ -15,9 +25,7 @@
         {% else %}   
             <p style="color:white;"><b>Categoria:</b> {{ user.categoria.categoria }} </p> 
         {% endif %}
-
-        
-        
+        <a class="col-md-6 btn btn-md blue" data-toggle="modal" onclick="sendDataEditUserDetails()">Editar</a>
 
 
 
@@ -25,6 +33,38 @@
 
 
 </div>
+
+<script>
+
+       function sendDataEditUserDetails() {
+
+        $.blockUI({ message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/cbp-loading.gif') }}" /> Guardando datos, por favor espere...</h4>' });
+        var form=document.getElementById("formEditMantenimientoUserDetails");
+        var formData = new FormData(form);
+        $.ajax({
+            url: '{{ path('followingAction') }}',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                Notificacion("success", "Valoración RP", "Los datos se han guardado correctamente.");
+                $.unblockUI();
+                $('#sample_2').load(window.location + ' #sample_2 >  *');
+
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Notificacion("error", "Valoración RP", "Ha existido un problema y no se ha podido editar el usuario.");
+                $.unblockUI();
+            }
+        });
+
+    }
+
+
+    
+</script>
 
 
 
