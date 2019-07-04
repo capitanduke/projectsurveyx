@@ -14,18 +14,24 @@
 
         <input type="hidden" id="idUsuario" name="idUsuario" value="{{ user.id }}">
 
-      </form>
+        
 
-    
+      </form>
 
         <p style="color:white;"><b>ID:</b> {{ user.id }} </p>
         <p style="color:white;"><b>Email:</b> {{ user.email }} </p>
+        <p style="color:white;"><b>User:</b> {{ user.username }} </p>
         {% if user.categoria == false %}
             <p style="color:white;"><b>Categoria:</b> Aun no tiene categoria </p>
         {% else %}   
             <p style="color:white;"><b>Categoria:</b> {{ user.categoria.categoria }} </p> 
         {% endif %}
-        <a class="col-md-6 btn btn-md blue" data-toggle="modal" onclick="sendDataEditUserDetails()">Editar</a>
+
+    
+
+        
+        <button type="button" class="btn blue" onclick="sendDataEditUserDetails()">Follow</button>
+        
 
 
 
@@ -36,11 +42,15 @@
 
 <script>
 
+  
        function sendDataEditUserDetails() {
 
         $.blockUI({ message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/cbp-loading.gif') }}" /> Guardando datos, por favor espere...</h4>' });
+        //var form = document.getElementById("idUsuario").value;
+
         var form=document.getElementById("formEditMantenimientoUserDetails");
         var formData = new FormData(form);
+        
         $.ajax({
             url: '{{ path('followingAction') }}',
             type: 'POST',
@@ -49,18 +59,23 @@
             contentType: false,
             processData: false,
             success: function (returndata) {
-                Notificacion("success", "Valoración RP", "Los datos se han guardado correctamente.");
+                Notificacion("success", "Survey Project", "Empezaste a seguir a este usuario");
                 $.unblockUI();
                 $('#sample_2').load(window.location + ' #sample_2 >  *');
 
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                Notificacion("error", "Valoración RP", "Ha existido un problema y no se ha podido editar el usuario.");
+                Notificacion("error", "Survey Project", "Ha existido un problema y no se ha podido seguir a este usuario.");
                 $.unblockUI();
             }
         });
 
+
     }
+
+    
+
+    
 
 
     

@@ -16,7 +16,6 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Form\Factory\FactoryInterface;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
-
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -48,21 +47,68 @@ class UsuarioController extends Controller
     public function followingAction(Request $request)
     {
 
-        var_dump($request->request->get('idUsuario'));die;
-        $usuario->setNombre($request->request->get('idUsuario'));
+        $em = $this->getDoctrine()->getManager();
         
-    
+        $user = $em->getRepository('ModelBundle:User')->find($request->request->get('idUsuario'));
+        
+
+        $seguidor = $this->get('security.token_storage')->getToken()->getUser();
+        
+
+        $seguidorExist = $em->getRepository('ModelBundle:Followers')->findOneBy(array('id' => $seguidor ));
+
+
+
+
+        $follower = new Followers();
+        $follower->setUsername($seguidor->getUsername());
+        $follower->setUserId($seguidor->getId());
+        $follower->setSeguidoId($user->getId());
+        $em->persist($follower);
+        $em->flush();
+        $response = array("code" => 100, "success" => true);
+        $response = new Response(json_encode($response));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*$em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('ModelBundle:User')->findAll();
+        //$usuarios = $em->getRepository('ModelBundle:Usuario')->findAll();
+        
+
+        return $this->render('MantenimientoBundle:Usuario:usuarios.html.twig', array(
+            'users' => $users,
+            
+        ));
+
+  
+        
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('GOCModelBundle:User')->find($request->request->get('idUsuario'));
+        $user = $em->getRepository('ModelBundle:User')->find($request->request->get('idUsuario'));
+
+        var_dump($user);die;
 
 
-        var_dump('idUsuario');die;
+        
+
         //$user = $em->getRepository('ModelBundle:User')->findOneBy(array('idUsuario' => $id ));
         //$seguidor = $em->getRepository('ModelBundle:Followers')->findOneBy(array('id' => $id ));
         //$seguido = $em->getRepository('ModelBundle:Followers')->findOneBy(array('id' => $id ));
 
-    Try {
+    /*Try {
         
         
 
@@ -106,17 +152,17 @@ class UsuarioController extends Controller
             } */ 
             
         //}
-    } 
-    Catch(Exception $e)
-    {
+    //}
+    //Catch(Exception $e)
+    //{
 
-        $response = array("code" => 100, "success" => false, "error" => $e);
-        $response = new Response(json_encode($response));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
+        //$response = array("code" => 100, "success" => false, "error" => $e);
+        //$response = new Response(json_encode($response));
+        //$response->headers->set('Content-Type', 'application/json');
+        //return $response;
+    //}
 
-        return $this->redirectToRoute('usuariosMantenimiento');
+        //return $this->redirectToRoute('usuariosMantenimiento');
         //return $this->render('MantenimientoBundle:Usuario:usuarios.html.twig');
     }
 
