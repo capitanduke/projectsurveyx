@@ -47,32 +47,65 @@ class UsuarioController extends Controller
     public function followingAction(Request $request)
     {
 
+        
+
         $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('ModelBundle:User')->find($request->request->get('idUsuario')); //A seguir
+
+        try{
+
+            $seguidor = $this->get('security.token_storage')->getToken()->getUser(); //YO
+            //$seguidorExist = $em->getRepository('ModelBundle:Followers')->findOneBy(array('userId' => $seguidor ));
+            $seguidorExist = $em->getRepository('ModelBundle:Followers')->findOneBy(array('seguidoId' => $user->getId() ));
+            //$seguidorExist = $em->getRepository('ModelBundle:Followers')->findAll();
+
+            //var_dump($seguidorExist->getSeguidoId());die;
+
+            if($seguidorExist !== null){
+                if($user->getId() !== $seguidorExist->getSeguidoId()){
+                    $follower = new Followers();
+                    $follower->setUsername($seguidor->getUsername());
+                    $follower->setUserId($seguidor->getId());
+                    $follower->setSeguidoId($user->getId());
+                    $em->persist($follower);
+                    $em->flush();
+                    $response = array("code" => 100, "success" => true);
+                    $response = new Response(json_encode($response));
+                    $response->headers->set('Content-Type', 'application/json');
+                    return $response;
+                    //var_dump("diferente a null");die;
+                } else{
+                    $response = array("code" => 100, "success" => false, "error" => $e);
+                    return new Response($response);
+                }
+            }
+            elseif($seguidorExist === NULL){ 
+                $follower = new Followers();
+                $follower->setUsername($seguidor->getUsername());
+                $follower->setUserId($seguidor->getId());
+                $follower->setSeguidoId($user->getId());
+                $em->persist($follower);
+                $em->flush();
+                $response = array("code" => 100, "success" => true);
+                $response = new Response(json_encode($response));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+                //var_dump("igual a null");die;
+    
+            }
+            
+        }
+
+        Catch(Exception $e)
+        {
+            $response = array("code" => 100, "success" => false, "error" => $e);
+            return new Response($response);
+        }
         
-        $user = $em->getRepository('ModelBundle:User')->find($request->request->get('idUsuario'));
+
         
 
-        $seguidor = $this->get('security.token_storage')->getToken()->getUser();
-        
-
-        $seguidorExist = $em->getRepository('ModelBundle:Followers')->findOneBy(array('id' => $seguidor ));
-
-
-
-
-        $follower = new Followers();
-        $follower->setUsername($seguidor->getUsername());
-        $follower->setUserId($seguidor->getId());
-        $follower->setSeguidoId($user->getId());
-        $em->persist($follower);
-        $em->flush();
-        $response = array("code" => 100, "success" => true);
-        $response = new Response(json_encode($response));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-
-
-
+       
 
 
 

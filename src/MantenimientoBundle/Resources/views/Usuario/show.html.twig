@@ -14,8 +14,6 @@
 
         <input type="hidden" id="idUsuario" name="idUsuario" value="{{ user.id }}">
 
-        
-
       </form>
 
         <p style="color:white;"><b>ID:</b> {{ user.id }} </p>
@@ -28,11 +26,7 @@
         {% endif %}
 
     
-
-        
         <button type="button" class="btn blue" onclick="sendDataEditUserDetails()">Follow</button>
-        
-
 
 
     </div>
@@ -65,7 +59,7 @@
 
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                Notificacion("error", "Survey Project", "Ha existido un problema y no se ha podido seguir a este usuario.");
+                Notificacion("error", "Survey Project", "Ya sigues a este usuario");
                 $.unblockUI();
             }
         });
