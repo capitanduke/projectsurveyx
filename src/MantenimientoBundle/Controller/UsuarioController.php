@@ -17,8 +17,15 @@ use FOS\UserBundle\Form\Factory\FactoryInterface;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\File;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 
 class UsuarioController extends Controller
@@ -47,19 +54,13 @@ class UsuarioController extends Controller
     public function followingAction(Request $request)
     {
 
-        
-
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('ModelBundle:User')->find($request->request->get('idUsuario')); //A seguir
 
         try{
 
             $seguidor = $this->get('security.token_storage')->getToken()->getUser(); //YO
-            //$seguidorExist = $em->getRepository('ModelBundle:Followers')->findOneBy(array('userId' => $seguidor ));
             $seguidorExist = $em->getRepository('ModelBundle:Followers')->findOneBy(array('seguidoId' => $user->getId() ));
-            //$seguidorExist = $em->getRepository('ModelBundle:Followers')->findAll();
-
-            //var_dump($seguidorExist->getSeguidoId());die;
 
             if($seguidorExist !== null){
                 if($user->getId() !== $seguidorExist->getSeguidoId()){
@@ -101,102 +102,7 @@ class UsuarioController extends Controller
             $response = array("code" => 100, "success" => false, "error" => $e);
             return new Response($response);
         }
-        
 
-        
-
-       
-
-
-
-
-
-
-
-
-
-
-        /*$em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('ModelBundle:User')->findAll();
-        //$usuarios = $em->getRepository('ModelBundle:Usuario')->findAll();
-        
-
-        return $this->render('MantenimientoBundle:Usuario:usuarios.html.twig', array(
-            'users' => $users,
-            
-        ));
-
-  
-        
-
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('ModelBundle:User')->find($request->request->get('idUsuario'));
-
-        var_dump($user);die;
-
-
-        
-
-        //$user = $em->getRepository('ModelBundle:User')->findOneBy(array('idUsuario' => $id ));
-        //$seguidor = $em->getRepository('ModelBundle:Followers')->findOneBy(array('id' => $id ));
-        //$seguido = $em->getRepository('ModelBundle:Followers')->findOneBy(array('id' => $id ));
-
-    /*Try {
-        
-        
-
-        $seguidor = $this->get('security.token_storage')->getToken()->getUser();
-        $seguidorFinal = $em->getRepository('ModelBundle:Followers')->findOneBy(array('id' => $seguidor ));
-
-       
-        
-        //if($seguidor = $seguidorFinal->getUserId()){
-
-            //var_dump($seguidor->getUsername());die;
-
-            $elseguido = $seguidorFinal->getSeguidoId();
-            $aseguir = $user->getId();
-
-
-            $follower = new Followers();
-            $follower->setUsername($seguidor->getUsername());
-            $follower->setUserId($seguidor->getId());
-            $follower->setSeguidoId($user->getId());
-            $em->persist($follower);
-            $em->flush();
-            $response = array("code" => 100, "success" => true);
-            $response = new Response(json_encode($response));
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-
-            /*if($elseguido != $aseguir ){
-                var_dump("ya lo sigues");die;
-            }else{
-                $follower = new Followers();
-                $follower->setUsername($seguidor->getUsername());
-                $follower->setUserId($seguidor->getId());
-                $follower->setSeguidoId($user->getId());
-                $em->persist($follower);
-                $em->flush();
-                $response = array("code" => 100, "success" => true);
-                $response = new Response(json_encode($response));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            } */ 
-            
-        //}
-    //}
-    //Catch(Exception $e)
-    //{
-
-        //$response = array("code" => 100, "success" => false, "error" => $e);
-        //$response = new Response(json_encode($response));
-        //$response->headers->set('Content-Type', 'application/json');
-        //return $response;
-    //}
-
-        //return $this->redirectToRoute('usuariosMantenimiento');
-        //return $this->render('MantenimientoBundle:Usuario:usuarios.html.twig');
     }
 
     /**
@@ -217,56 +123,81 @@ class UsuarioController extends Controller
         ));
     }
 
-
     /**
      * @Route("/edit/{id}", name="editUser")
      * Method({"GET", "POST"})
      */
     public function edit(Request $request, $id) {
         
-        $usuario = new Usuario();
-        $usuario = $this->getDoctrine()->getRepository('ModelBundle:User')->findOneBy(array('id' => $id ));
-
-
-        /*var_dump($usuario);die;
-
-        $theUsuario = $theUsuario->getId();
-        var_dump($theUsuario);die;
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->flush();*/
-
-        //var_dump($theUsuario);die;
-
-        //var_dump($usuario->setId(2));die;
-
-        //$usuario->setId($id);
-
-        /*$em = $this->getDoctrine()->getManager();
-        $em->persist($usuario);
-        $em->flush();*/
-
-        
-        $form = $this->createFormBuilder($usuario)
-            ->add('username', TextType::class, array('attr' => array('class' => 'form-control')))
-            ->add('email', TextType::class, array('attr' => array('class' => 'form-control')))
-            ->add('save', SubmitType::class, array(
-            'label' => 'Update',
-            'attr' => array('class' => 'btn btn-primary mt-3')
-            ))
-            ->getForm();
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $usuario = $form->getData();
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->flush();
-            return $this->redirectToRoute('usuariosMantenimiento');
-        }
-
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('ModelBundle:User')->findOneBy(array('id' => $id ));
 
 
         return $this->render('MantenimientoBundle:Usuario:edit.html.twig', array(
-          'form' => $form->createView()
+            'user' => $user, 
         ));
+    }
+
+
+
+    /**
+     * @Route("/editAction", name="editUserAction")
+     * Method({"GET", "POST"})
+     */
+    public function editAction(Request $request) {
+        
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('ModelBundle:User')->find($request->request->get('idUsuario'));
+
+
+        Try {
+
+            if($user->getUsername() != $user->setUsername($request->request->get('nombreMantenimiento'))){
+                $user->setUsername($request->request->get('nombreMantenimiento'));
+            }
+            
+            if($user->getPath() == null){
+                $dir = $this->getParameter('upload_directory');
+                $name = uniqid() . '.jpeg';
+                $avatar = true;
+                foreach ($request->files as $uploadedFile) {
+                    if ($uploadedFile != null) {
+                        $uploadedFile->move($dir, $name);
+                    } else {
+                        $avatar = false;
+                    }
+                }
+            }else{
+                $dir = $this->getParameter('upload_directory');
+                $name = $user->getPath();
+                $avatar = false;
+                foreach ($request->files as $uploadedFile) {
+                    if ($uploadedFile != null) {
+                        $uploadedFile->move($dir, $name);
+                    } else {
+                        $avatar = false;
+                    }
+                }
+            }
+
+            if ($avatar) {
+                $user->setPath($name);
+            }
+
+
+            $em->persist($user);
+            $em->flush();
+
+            $response = array("code" => 100, "success" => true);
+            $response = new Response(json_encode($response));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+
+        } Catch(Exception $e){
+            $response = array("code" => 100, "success" => false, "error" => $e);
+            return new Response($response);
+        }
+        
     }
 
 

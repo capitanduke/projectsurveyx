@@ -10,19 +10,86 @@
 
             {% block title %}
                 
-                <h1 style="color:white;"> Editing User - ID: </h1>
+                <h1 style="color:white;"> Editing User - ID: {{user.id}} </h1>
             
             {% endblock %}
 
-            {{ form_start(form) }}
+            {#{{ form_start(form) }}
             {{ form_widget(form) }}
-            {{ form_end(form) }}
+            {{ form_end(form) }}#}
+        
+                
+                <div class="margin-top-20" style="text-align:center;">
+                    <img src="{{ asset('assets/uploads/' ~ user.path) }}" id="avatar" height="140px" style="border-radius: 50%;">
+                </div>
+
+
+                <form class="form-horizontal" role="form" id="formEditMantenimientoUserDetails" action="{{ path('editUserAction') }}" method="POST">
+                    <div class="form-body">
+                        <div class="form-group col-md-6">
+                            <input type="hidden" id="idUsuario" name="idUsuario" value="{{ user.id }}">
+                            <label class="col-md-6 control-label margin-top-20">Nombre</label>
+                            <div class="col-md-6 margin-top-20">
+                                <input type="text" class="form-control" placeholder="Nombre" id="nombreMantenimiento" name="nombreMantenimiento" value="{{ user.username }}">
+                            </div>
+                            <label class="col-md-4 margin-top-20" style="text-align:right;">Foto Perfil</label>
+                            <div class="col-md-2 margin-top-20">
+                                <input type="file" class="c-font-14" id="fotoperfil" name="fotoperfil" accept="image/x-png,image/gif,image/jpeg">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            
+
+        <div class="modal-footer">
+            <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn blue" onclick="sendDataEditUserDetails()">Guardar</button>
+        </div>
 
 
     </div>
 
 
 </div>
+
+<script>
+    function sendDataEditUserDetails() {
+        $.blockUI({ message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/cbp-loading.gif') }}" /> Guardando datos, por favor espere...</h4>' });
+        var form=document.getElementById("formEditMantenimientoUserDetails");
+        var formData = new FormData(form);
+        $.ajax({
+            url: '{{ path('editUserAction') }}',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                Notificacion("success", "Valoración RP", "Los datos se han guardado correctamente.");
+                $.unblockUI();
+                $('#sample_2').load(window.location + ' #sample_2 >  *');
+
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Notificacion("error", "Valoración RP", "Ha existido un problema y no se ha podido editar el usuario.");
+                $.unblockUI();
+            }
+        });
+  }
+
+    jQuery(document).ready(function() {
+        // initiate layout and plugins
+        Metronic.init(); // init metronic core components
+        Layout.init(); // init current layout
+        QuickSidebar.init(); // init quick sidebar
+        Demo.init(); // init demo features
+        ComponentsPickers.init();
+    });
+
+
+
+
+</script>
 
 
 

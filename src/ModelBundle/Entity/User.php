@@ -27,6 +27,13 @@ class User extends BaseUser implements UserInterface
     */
     private $categoria;
 
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="path", type="string", length=1000, nullable=true)
+    */
+    private $path;
+
 
     /**
      * @return mixed
@@ -58,5 +65,21 @@ class User extends BaseUser implements UserInterface
     public function setCategoria($categoria)
     {
         $this->categoria = $categoria;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
     }
 }
