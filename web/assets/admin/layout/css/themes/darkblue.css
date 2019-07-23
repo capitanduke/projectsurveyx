@@ -901,6 +901,7 @@ Boby
 ****/
 body {
   background-color: #364150;
+  color: #ffffff;
 }
 
 /****
@@ -909,4 +910,11 @@ body {
 .page-spinner-bar > div,
 .block-spinner-bar > div {
   background: #20c5ad;
+}
+
+/* NEW STYLOS RULS */
+
+.footer-button-edit-profile {
+  padding-top:16em;
+  text-align: center;
 }

@@ -34,6 +34,34 @@ class User extends BaseUser implements UserInterface
     */
     private $path;
 
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="gender", type="string", length=1000, nullable=true)
+    */
+    private $gender;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="age", type="integer")
+    */
+    private $age;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="name", type="string", length=1000, nullable=true)
+    */
+    private $name;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="lastname", type="string", length=1000, nullable=true)
+    */
+    private $lastname;
+
 
     /**
      * @return mixed
@@ -81,5 +109,69 @@ class User extends BaseUser implements UserInterface
     public function setPath($path)
     {
         $this->path = $path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param string $gender
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getAge()
+    {
+        return $this->age;
+    }
+
+    /**
+     * @param integer $age
+     */
+    public function setAge($age)
+    {
+        $this->age = $age;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string $lastname
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
     }
 }

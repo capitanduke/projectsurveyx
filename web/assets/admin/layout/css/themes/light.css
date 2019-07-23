@@ -904,7 +904,7 @@ Page Footer
 Boby
 ****/
 body {
-  background-color: #FFFFFF;
+  background-color: #f2f2f2;
 }
 
 /****
@@ -1025,4 +1025,12 @@ body {
   .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle > i {
     color: #dde0e3;
   }
+}
+
+
+/* NEW STYLOS RULS */
+
+.footer-button-edit-profile {
+  padding-top:30em;
+  text-align: center;
 }

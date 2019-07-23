@@ -4,34 +4,79 @@
 {% block body %}
 
 
-<div class="container">
-
-    <div class="col-md-12">
-
-
-        {% for usus in users %}
-            <a href="{{ path('showUser', {'id': usus.id}) }}">
-                <h1 style="color:white;">{{ usus.username }} - {{ usus.id }} </h1>
-            </a>
-            <a href="{{ path('editUser', {'id': usus.id}) }}">
-                <h1 style="color:white;">EDIT </h1>
-            </a>
-            <!--<a href="{{ path('followingAction', {'id': usus.id}) }}">
-                <h1 style="color:white;">FOLLOW </h1>
-            </a>-->
-
-            <button type="button" class="btn blue" id="target" >hello</button>
-            
-            
-        {% endfor %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE CONTENT-->
+        <div class="row">
+            <div class="col-md-12">
 
 
+                {% for usus in users %}
+
+                <div class="col-md-2" style="min-height:5em;">
+                    <div class="portlet light profile-sidebar-portlet">
+                        <!-- SIDEBAR USERPIC -->
+                        <div class="profile-userpic" >
+                            <img src="{{ asset('assets/uploads/' ~ usus.path) }}" class="img-responsive user-pic" style="max-height:70px;">
+                        </div>
+                        <!-- END SIDEBAR USERPIC -->
+                        <!-- SIDEBAR USER TITLE -->
+                        <div class="profile-usertitle">
+                            <div class="profile-usertitle-name">
+                                    <h3>{{usus.name}} {{usus.lastname}}</h3>
+                            </div>
+                            <div class="profile-usertitle-job">
+                                <p><b>Username:</b> {{ usus.username }} </p>
+                            </div>
+                        </div>
+                        <!-- END SIDEBAR USER TITLE -->
+                        <!-- SIDEBAR BUTTONS -->
+                        <div class="profile-userbuttons">
+                            <a href="{{ path('showUser', {'id': usus.id}) }}" class="btn yellow-crusta">
+                                VIEW USER
+                            </a>
+                            
+                        </div>
+                        <!-- END SIDEBAR BUTTONS -->
+                        <!-- SIDEBAR MENU -->
+                        <div class="profile-usermenu">
+                            <ul class="nav">
+                                <li class="active">
+                                    <a href="extra_profile.html">
+                                    <i class="icon-home"></i>
+                                    Overview </a>
+                                </li>
+                                <li>
+                                    <a href="extra_profile_account.html">
+                                    <i class="icon-settings"></i>
+                                    Account Settings </a>
+                                </li>
+                                <li>
+                                    <a href="page_todo.html" target="_blank">
+                                    <i class="icon-check"></i>
+                                    Tasks </a>
+                                </li>
+                                <li>
+                                    <a href="extra_profile_help.html">
+                                    <i class="icon-info"></i>
+                                    Help </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END MENU -->
+                    </div>
+                </div>    
+
+                {% endfor %}
 
 
+            </div>
+        </div>
     </div>
-
-
 </div>
+
+
+
 
 
 

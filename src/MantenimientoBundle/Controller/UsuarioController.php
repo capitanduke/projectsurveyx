@@ -113,13 +113,33 @@ class UsuarioController extends Controller
         
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('ModelBundle:User')->findOneBy(array('id' => $id ));
+
+        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
         
         $usuarioDetails = array(
             'id' => $user->getId(),
         );
 
         return $this->render('MantenimientoBundle:Usuario:show.html.twig', array(
-            'user' => $user, 'usuarioDetails' => $usuarioDetails,
+            'user' => $user, 'usuarioDetails' => $usuarioDetails, 'userlogged' => $userLogged,
+        ));
+    }
+
+    /**
+     * @Route("/showme", name="showMe")
+     */
+    public function showMe(Request $request)
+    {
+        
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+
+        return $this->render('MantenimientoBundle:Usuario:show.html.twig', array(
+            'user' => $user, 'userlogged' => $userLogged,
         ));
     }
 
@@ -139,7 +159,6 @@ class UsuarioController extends Controller
     }
 
 
-
     /**
      * @Route("/editAction", name="editUserAction")
      * Method({"GET", "POST"})
@@ -152,9 +171,26 @@ class UsuarioController extends Controller
 
         Try {
 
-            if($user->getUsername() != $user->setUsername($request->request->get('nombreMantenimiento'))){
-                $user->setUsername($request->request->get('nombreMantenimiento'));
+            if($user->getUsername() != $user->setUsername($request->request->get('usernameMantenimiento'))){
+                $user->setUsername($request->request->get('usernameMantenimiento'));
             }
+
+            if($user->getName() != $user->setName($request->request->get('nameMantenimiento'))){
+                $user->setName($request->request->get('nameMantenimiento'));
+            }
+
+            if($user->getLastname() != $user->setLastname($request->request->get('lastnameMantenimiento'))){
+                $user->setLastname($request->request->get('lastnameMantenimiento'));
+            }
+
+            if($user->getAge() != $user->setAge($request->request->get('ageMantenimiento'))){
+                $user->setAge($request->request->get('ageMantenimiento'));
+            }
+
+            if($user->getGender() != $user->setGender($request->request->get('genderMantenimiento'))){
+                $user->setGender($request->request->get('genderMantenimiento'));
+            }
+
             
             if($user->getPath() == null){
                 $dir = $this->getParameter('upload_directory');
