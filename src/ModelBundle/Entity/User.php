@@ -22,7 +22,7 @@ class User extends BaseUser implements UserInterface
     protected $id;
 
     /**
-    * @ORM\OneToOne(targetEntity="Categoria", inversedBy="user")
+    * @ORM\ManyToOne(targetEntity="Categoria", inversedBy="user")
     * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
     */
     private $categoria;

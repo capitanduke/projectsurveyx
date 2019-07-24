@@ -20,7 +20,7 @@ class Categoria
     private $id;
 
     /**
-    * @ORM\OneToOne(targetEntity="User", mappedBy="categoria")
+    * @ORM\OneToMany(targetEntity="User", mappedBy="categoria")
     */
     private $user;
 
@@ -86,5 +86,10 @@ class Categoria
         $this->categoria = $categoria;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->categoria;
     }
 }
