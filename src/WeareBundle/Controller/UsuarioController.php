@@ -1,6 +1,6 @@
 <?php
 
-namespace MantenimientoBundle\Controller;
+namespace WeareBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class UsuarioController extends Controller
 {
     /**
-     * @Route("/usuarios", name="usuariosMantenimiento")
+     * @Route("/users", name="usersWeare")
      */
     public function indexAction()
     {
@@ -40,7 +40,7 @@ class UsuarioController extends Controller
         //$usuarios = $em->getRepository('ModelBundle:Usuario')->findAll();
         
 
-        return $this->render('MantenimientoBundle:Usuario:usuarios.html.twig', array(
+        return $this->render('WeareBundle:Usuario:users.html.twig', array(
             'users' => $users,
             
         ));
@@ -120,7 +120,7 @@ class UsuarioController extends Controller
             'id' => $user->getId(),
         );
 
-        return $this->render('MantenimientoBundle:Usuario:show.html.twig', array(
+        return $this->render('WeareBundle:Usuario:show.html.twig', array(
             'user' => $user, 'usuarioDetails' => $usuarioDetails, 'userlogged' => $userLogged,
         ));
     }
@@ -138,7 +138,7 @@ class UsuarioController extends Controller
 
         $userLogged = $this->get('security.token_storage')->getToken()->getUser();
 
-        return $this->render('MantenimientoBundle:Usuario:show.html.twig', array(
+        return $this->render('WeareBundle:Usuario:show.html.twig', array(
             'user' => $user, 'userlogged' => $userLogged,
         ));
     }
@@ -153,7 +153,7 @@ class UsuarioController extends Controller
         $user = $em->getRepository('ModelBundle:User')->findOneBy(array('id' => $id ));
 
 
-        return $this->render('MantenimientoBundle:Usuario:edit.html.twig', array(
+        return $this->render('WeareBundle:Usuario:edit.html.twig', array(
             'user' => $user, 
         ));
     }
@@ -171,24 +171,24 @@ class UsuarioController extends Controller
 
         Try {
 
-            if($user->getUsername() != $user->setUsername($request->request->get('usernameMantenimiento'))){
-                $user->setUsername($request->request->get('usernameMantenimiento'));
+            if($user->getUsername() != $user->setUsername($request->request->get('usernameWeare'))){
+                $user->setUsername($request->request->get('usernameWeare'));
             }
 
-            if($user->getName() != $user->setName($request->request->get('nameMantenimiento'))){
-                $user->setName($request->request->get('nameMantenimiento'));
+            if($user->getName() != $user->setName($request->request->get('nameWeare'))){
+                $user->setName($request->request->get('nameWeare'));
             }
 
-            if($user->getLastname() != $user->setLastname($request->request->get('lastnameMantenimiento'))){
-                $user->setLastname($request->request->get('lastnameMantenimiento'));
+            if($user->getLastname() != $user->setLastname($request->request->get('lastnameWeare'))){
+                $user->setLastname($request->request->get('lastnameWeare'));
             }
 
-            if($user->getAge() != $user->setAge($request->request->get('ageMantenimiento'))){
-                $user->setAge($request->request->get('ageMantenimiento'));
+            if($user->getAge() != $user->setAge($request->request->get('ageWeare'))){
+                $user->setAge($request->request->get('ageWeare'));
             }
 
-            if($user->getGender() != $user->setGender($request->request->get('genderMantenimiento'))){
-                $user->setGender($request->request->get('genderMantenimiento'));
+            if($user->getGender() != $user->setGender($request->request->get('genderWeare'))){
+                $user->setGender($request->request->get('genderWeare'));
             }
 
             

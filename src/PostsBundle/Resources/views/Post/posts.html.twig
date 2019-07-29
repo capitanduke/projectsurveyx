@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+
+    <style>
+        
+    </style>
+
+{% endblock %}
+
+ {% block body %}
+
+     <!-- BEGIN CONTENT -->
+     <div class="page-content-wrapper"  >
+         <div class="page-content">
+             <div class="page-container">
+                 <div class="col-md-12" id="usersIndex" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" >
+                     <!-- BEGIN: TABLA USUARIOS -->
+                     <div class="portlet box grey-cararra">
+                         <div class="portlet-title">
+                             <div class="caption">
+                                 <i class="fa fa-list"></i>Posts
+                             </div>
+                         </div>
+                         <div class="portlet-body">
+                             <div class="table-toolbar">
+                                 <div class="row">
+                                     <div class="col-md-4">
+                                         <div class="btn-group">
+                                             <a class="btn blue" data-toggle="modal"
+                                                onclick="createPlantillas()"> <i class="fa fa-plus"></i> New Post </a>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-8">
+                                         <h1>Your posts</h1>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                         
+                     </div>
+                 </div>
+                 <!-- END: TABLA USUARIOS -->
+                 <div id="verplantilla" class="modal container fade" tabindex="-1">
+                 </div>
+                 <div class="modal fade bs-modal-lg" id="editplantilla" tabindex="-1" role="dialog" aria-hidden="true">
+                 </div>
+                 <div class="modal fade bs-modal-lg" id="crearPost" tabindex="-1" role="dialog" aria-hidden="true">
+                 </div>
+                 <div class="modal fade bs-modal-lg" id="" tabindex="-1" role="dialog" aria-hidden="true" style=" z-index: 10000000 !important;">
+                 </div>
+                 <div class="modal fade bs-modal-lg" id="crearCompetenciaFichaBaseEdit" tabindex="-1" role="dialog" aria-hidden="true" style=" z-index: 10000000 !important;">
+                 </div>
+
+             </div>
+         </div>
+
+     </div>
+     </div>
+     <!-- END CONTENT -->
+
+     <script>
+
+         function createPlantillas() {
+             $.blockUI({ message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/cbp-loading.gif') }}" /> Cargando datos, por favor espere...</h4>' });
+             $( "#crearPost" ).load( "{{ path('showModalCreatePost')}}", function() {
+                 $('#crearPost').modal('show');
+                 $.unblockUI();
+             });
+         }
+
+
+     </script>
+
+
+ {% endblock %}

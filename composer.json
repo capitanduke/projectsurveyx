@@ -6,8 +6,9 @@
         "psr-4": {
             "AppBundle\\": "src/AppBundle",
             "HomeBundle\\": "src/HomeBundle",
-            "MantenimientoBundle\\": "src/MantenimientoBundle",
-            "ModelBundle\\": "src/ModelBundle"
+            "WeareBundle\\": "src/WeareBundle",
+            "ModelBundle\\": "src/ModelBundle",
+            "PostsBundle\\": "src/PostsBundle"
         },
         "classmap": [
             "app/AppKernel.php",

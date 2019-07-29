@@ -62,6 +62,12 @@ class User extends BaseUser implements UserInterface
     */
     private $lastname;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="user")
+     * @ORM\JoinColumn(name="posts_id", referencedColumnName="id")
+     */
+    private $posts;
+
 
     /**
      * @return mixed
@@ -173,5 +179,56 @@ class User extends BaseUser implements UserInterface
     public function setLastname($lastname)
     {
         $this->lastname = $lastname;
+    }
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->posts = new ArrayCollection();
+        
+    }
+
+    /**
+     * Get the value of posts
+     */ 
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * Set the value of posts
+     *
+     * @return  self
+     */ 
+    public function setPosts($posts)
+    {
+        $this->posts = $posts;
+
+        return $this;
+    }
+
+    /**
+     * Add post
+     *
+     * @param ModelBundle\Entity\Post $post
+     *
+     * @return User
+     */
+    public function addPost(Post $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove Posts
+     *
+     * @param ModelBundle\Entity\Post $post
+     */
+    public function removePost(Post $post)
+    {
+        $this->posts->removeElement($post);
     }
 }

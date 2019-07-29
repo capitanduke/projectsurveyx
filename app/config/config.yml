@@ -3,8 +3,9 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: "@HomeBundle/Resources/config/services.yml" }
-    - { resource: "@MantenimientoBundle/Resources/config/services.yml" }
+    - { resource: "@WeareBundle/Resources/config/services.yml" }
     - { resource: "@ModelBundle/Resources/config/services.yml" }
+    - { resource: "@PostsBundle/Resources/config/services.yml" }
 
 
 

@@ -3,10 +3,10 @@ model:
     type:     annotation
     prefix:   /
 
-mantenimiento:
-    resource: "@MantenimientoBundle/Controller/"
+weare:
+    resource: "@WeareBundle/Controller/"
     type:     annotation
-    prefix:   /mantenimiento
+    prefix:   /weare
 
 home:
     resource: "@HomeBundle/Controller/"
@@ -19,3 +19,8 @@ app:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+posts:
+    resource: "@PostsBundle/Controller/"
+    type:     annotation
+    prefix:   /posts
