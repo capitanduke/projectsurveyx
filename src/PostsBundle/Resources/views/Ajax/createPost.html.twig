@@ -6,15 +6,16 @@
         </div>
         <div class="modal-body">
             <div class="col-md-10 col-md-offset-1">
-                <form class="form-horizontal" role="form" id="formCreatePost" action="{#{{ path('createPost') }}#}" method="POST">
+                <form class="form-horizontal" role="form" id="formCreatePost" action="{{ path('createPost') }}" method="POST">
+                <input type="hidden" id="currentUser" name="currentUser" value="{{ currentUser }}">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-4 control-label margin-top-20">Post:</label>
                             <div class="col-md-6 margin-top-20">
-                                <textarea rows="4" cols="50" class="form-control" placeholder="Descripcion de la competencia" id="CrearCompetenciaMantenimientoDescripcion" name="CrearCompetenciaMantenimientoDescripcion"></textarea>
+                                <textarea rows="4" cols="50" class="form-control" placeholder="Descripcion de la competencia" id="postText" name="postText"></textarea>
                             </div>
-                            <label class="col-md-4 margin-top-20" style="text-align:right;">Estado:</label>
-                            <div class="md-checkbox-inline col-md-6 margin-top-20">
+                            <!--<label class="col-md-4 margin-top-20" style="text-align:right;">Estado:</label>-->
+                            <!--<div class="md-checkbox-inline col-md-6 margin-top-20">
                                 <div class="md-checkbox">
                                     <input type="hidden" name="EstadoCompetencia" value="0" />
                                     <input type="checkbox" id="checkbox6" class="md-check" name="EstadoCompetencia" value="1" checked>
@@ -24,13 +25,13 @@
                                         <span class="box"></span>
                                         Publish </label>
                                 </div>
-                            </div>
-                            <label class="col-md-4 control-label">Survey:</label>
-                            <div class="col-md-6">
-                                <select name="selectClasificacion" id="selectClasificacion" class="page-header-top-dropdown-style-option form-control input-xs" required >
+                            </div>-->
+                            <!--<label class="col-md-4 control-label">Survey:</label>-->
+                            <!--<div class="col-md-6">
+                                <select name="surveyParent" id="surveyParent" class="page-header-top-dropdown-style-option form-control input-xs" required >
                                     
                                 </select>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
 
@@ -48,10 +49,13 @@
 
     function sendDataCreatePost() {
 
-        $('#crearCompetenciaFichaBase').modal('hide');
+        //$('#crearCompetenciaFichaBase').modal('hide');
         $.blockUI({baseZ: 20000, message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/cbp-loading.gif') }}" /> Guardando datos, por favor espere...</h4>'});
         var form = document.getElementById("formCreatePost");
+        
         var formData = new FormData(form);
+        
+
         $.ajax({
             url: '{{ path('createPost') }}',
             type: 'POST',
@@ -59,19 +63,15 @@
             cache: false,
             contentType: false,
             processData: false,
-            success: function (response) {
-                if(response.success){
-                    Notificacion("success", "Valoración RP", "Los datos se han guardado correctamente.");
-                    $.unblockUI();
-                    filtroCategoria();
-                }else{
-                    $.unblockUI();
-                    Notificacion("error", "Valoración RP", "Ha existido un problema y no se ha podido crear la competencia.");
-                }
+            success: function (returndata) {
+                Notificacion("success", "Survey Projext X", "Everything worked just fine.");
+                $('#crearPost').modal('hide');
+                $.unblockUI();
+                $('#sample_2').load(window.location + ' #sample_2 >  *');
 
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                Notificacion("error", "Valoración RP", "Ha existido un problema y no se ha podido crear la competencia.");
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Notificacion("error", "Survey Projext X", "ummmmm there is something wrong cowboy.");
                 $.unblockUI();
             }
         });

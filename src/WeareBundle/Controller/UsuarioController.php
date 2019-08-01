@@ -138,8 +138,12 @@ class UsuarioController extends Controller
 
         $userLogged = $this->get('security.token_storage')->getToken()->getUser();
 
+        $em = $this->getDoctrine()->getManager();
+        $posts = $em->getRepository('ModelBundle:Post')->findBy(array('userId' => $userLogged->getId() ));
+
+
         return $this->render('WeareBundle:Usuario:show.html.twig', array(
-            'user' => $user, 'userlogged' => $userLogged,
+            'user' => $user, 'userlogged' => $userLogged, 'posts' => $posts
         ));
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace ModelBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,65 +21,54 @@ class Post
     private $id;
 
     /**
-    * @ORM\OneToMany(targetEntity="User", mappedBy="post")
-    */
-    private $user;
-
-    /**
-     * @ORM\Column(name="post", type="string", length=65535)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $post;
-
-    public function __toString()
-    {
-        return $this->post;
-    }
+    private $userId;
 
     /**
-     * Get the value of post
+     * @ORM\Column(name="post_text", type="string")
+     */
+    private $postText;
+
+
+    /**
+     * Get the value of userId
      */ 
-    public function getPost()
+    public function getUserId()
     {
-        return $this->post;
+        return $this->userId;
     }
 
     /**
-     * Set the value of post
+     * Set the value of userId
      *
      * @return  self
      */ 
-    public function setPost($post)
+    public function setUserId($userId)
     {
-        $this->post = $post;
+        $this->userId = $userId;
 
         return $this;
     }
 
     /**
-     * Get the value of user
+     * Get the value of postText
      */ 
-    public function getUser()
+    public function getPostText()
     {
-        return $this->user;
+        return $this->postText;
     }
 
     /**
-     * Set the value of user
+     * Set the value of postText
      *
      * @return  self
      */ 
-    public function setUser($user)
+    public function setPostText($postText)
     {
-        $this->user = $user;
+        $this->postText = $postText;
 
         return $this;
-    }
-
-     /**
-     * Post constructor.
-     */
-    public function __construct()
-    {
-
     }
 }

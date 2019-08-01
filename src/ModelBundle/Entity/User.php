@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
+
 /**
 * @ORM\Entity
 * @ORM\Table(name="fos_user")
@@ -62,11 +63,18 @@ class User extends BaseUser implements UserInterface
     */
     private $lastname;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="user")
-     * @ORM\JoinColumn(name="posts_id", referencedColumnName="id")
-     */
+    * One user has many posts. This is the inverse side.
+    *  @ORM\OneToMany(targetEntity="Post", mappedBy="user")
+    */
     private $posts;
+    
+
+    public function __construct() {
+        $this->posts = new ArrayCollection();
+    }
+
 
 
     /**
@@ -181,15 +189,8 @@ class User extends BaseUser implements UserInterface
         $this->lastname = $lastname;
     }
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->posts = new ArrayCollection();
-        
-    }
-
     /**
-     * Get the value of posts
+     * Get one user has many posts. This is the inverse side.
      */ 
     public function getPosts()
     {
@@ -197,7 +198,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * Set the value of posts
+     * Set one user has many posts. This is the inverse side.
      *
      * @return  self
      */ 
@@ -208,27 +209,4 @@ class User extends BaseUser implements UserInterface
         return $this;
     }
 
-    /**
-     * Add post
-     *
-     * @param ModelBundle\Entity\Post $post
-     *
-     * @return User
-     */
-    public function addPost(Post $post)
-    {
-        $this->posts[] = $post;
-
-        return $this;
-    }
-
-    /**
-     * Remove Posts
-     *
-     * @param ModelBundle\Entity\Post $post
-     */
-    public function removePost(Post $post)
-    {
-        $this->posts->removeElement($post);
-    }
 }
