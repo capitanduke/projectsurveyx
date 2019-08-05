@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+
+ {% block body %}
+
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE CONTENT-->
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <div class="col-md-12" >
+                    <div class="portlet light profile-sidebar-portlet">
+                        <!-- SIDEBAR USERPIC -->
+                        <div class="profile-userpic" >
+                            <img src="{{ asset('assets/uploads/' ~ post.path) }}" class="img-responsive user-pic" style="width:auto;">
+                        </div>
+                        <!-- END SIDEBAR USERPIC -->
+                        <!-- SIDEBAR USER TITLE -->
+                        <div class="profile-usertitle">
+                            <div class="profile-usertitle-name">
+                                <h1>{{post.titlePost}} </h1>
+                            </div>
+                            <div class="profile-usertitle-name">
+                                <h4><b>Autho: </b>{{post.userId}} </h4>
+                            </div>
+                            <div class="profile-usertitle-job">
+                                <p> {{ post.postText }} </p>
+                            </div>
+                        </div>
+                        <!-- END SIDEBAR USER TITLE -->
+                        <!-- SIDEBAR BUTTONS -->
+                        
+                        <div class="profile-userbuttons">
+                            <a href="{{ path('editPost', {'id': post.id}) }}" class="btn yellow-crusta">
+                                EDIT
+                            </a>
+                        </div>
+                        <!-- END SIDEBAR BUTTONS -->
+                        
+                    </div>
+                </div>    
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    
+
+ {% endblock %}

@@ -10,9 +10,17 @@
                 <input type="hidden" id="currentUser" name="currentUser" value="{{ currentUser }}">
                     <div class="form-body">
                         <div class="form-group">
+                            <label class="col-md-4 control-label margin-top-20">Title:</label>
+                            <div class="col-md-6 margin-top-20">
+                                <textarea rows="2" cols="50" class="form-control" placeholder="Title" id="postTitle" name="postTitle"></textarea>
+                            </div>
                             <label class="col-md-4 control-label margin-top-20">Post:</label>
                             <div class="col-md-6 margin-top-20">
-                                <textarea rows="4" cols="50" class="form-control" placeholder="Descripcion de la competencia" id="postText" name="postText"></textarea>
+                                <textarea rows="4" cols="50" class="form-control" placeholder="Post" id="postText" name="postText"></textarea>
+                            </div>
+                            <label class="col-md-6 control-label margin-top-20" style="padding-top:1px !important;">Image profile</label>
+                            <div class="col-md-6 margin-top-20">
+                                <input type="file" class=" c-font-14" id="fotoperfil" name="fotoperfil" accept="image/x-png,image/gif,image/jpeg">
                             </div>
                             <!--<label class="col-md-4 margin-top-20" style="text-align:right;">Estado:</label>-->
                             <!--<div class="md-checkbox-inline col-md-6 margin-top-20">

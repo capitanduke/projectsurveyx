@@ -27,9 +27,21 @@ class Post
     private $userId;
 
     /**
-     * @ORM\Column(name="post_text", type="string")
+     * @ORM\Column(name="title", type="string")
+     */
+    private $titlePost;
+
+    /**
+     * @ORM\Column(name="post_text", type="string", length=65535)
      */
     private $postText;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="path", type="string", length=1000, nullable=true)
+    */
+    private $path;
 
 
     /**
@@ -68,6 +80,75 @@ class Post
     public function setPostText($postText)
     {
         $this->postText = $postText;
+
+        return $this;
+    }
+    
+
+    /**
+     * Get the value of path
+     *
+     * @return  string
+     */ 
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Set the value of path
+     *
+     * @param  string  $path
+     *
+     * @return  self
+     */ 
+    public function setPath(string $path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     *
+     * @return  int
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @param  int  $id
+     *
+     * @return  self
+     */ 
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of titlePost
+     */ 
+    public function getTitlePost()
+    {
+        return $this->titlePost;
+    }
+
+    /**
+     * Set the value of titlePost
+     *
+     * @return  self
+     */ 
+    public function setTitlePost($titlePost)
+    {
+        $this->titlePost = $titlePost;
 
         return $this;
     }

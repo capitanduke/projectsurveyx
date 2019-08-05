@@ -10,37 +10,68 @@
 
  {% block body %}
 
+    
+
      <!-- BEGIN CONTENT -->
-     <div class="page-content-wrapper"  >
+     <div class="page-content-wrapper">
          <div class="page-content">
              <div class="page-container">
-                 <div class="col-md-12" id="usersIndex" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" >
-                     <!-- BEGIN: TABLA USUARIOS -->
-                     <div class="portlet box grey-cararra">
-                         <div class="portlet-title">
-                             <div class="caption">
-                                 <i class="fa fa-list"></i>Posts
-                             </div>
-                         </div>
-                         <div class="portlet-body">
-                             <div class="table-toolbar">
-                                 <div class="row">
-                                     <div class="col-md-4">
-                                         <div class="btn-group">
-                                             <a class="btn blue" data-toggle="modal"
-                                                onclick="createPlantillas()"> <i class="fa fa-plus"></i> New Post </a>
-                                         </div>
-                                     </div>
-                                     <div class="col-md-8">
-                                         <h1>Your posts</h1>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
 
-                         
-                     </div>
-                 </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="btn-group">
+                                    <a class="btn blue" data-toggle="modal"
+                                    onclick="createPlantillas()"> <i class="fa fa-plus"></i> New Post </a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+
+                    <!-- POSTS -->
+                    {% for postCards in posts %}
+
+                        <div class="col-md-2" style="max-height:5em;">
+                            <div class="portlet light profile-sidebar-portlet">
+                                <!-- SIDEBAR USERPIC -->
+                                <div class="profile-userpic" >
+                                    <img src="{{ asset('assets/uploads/' ~ postCards.path) }}" class="img-responsive user-pic" style="width:auto;">
+                                </div>
+                                <!-- END SIDEBAR USERPIC -->
+                                <!-- SIDEBAR USER TITLE -->
+                                <div class="profile-usertitle">
+                                    <div class="profile-usertitle-name">
+                                            <h3>{{postCards.titlePost}} </h3>
+                                    </div>
+                                    <div class="profile-usertitle-job">
+                                        <p><b>Author: </b> {{ postCards.userId.username }} </p>
+                                    </div>
+                                </div>
+                                <!-- END SIDEBAR USER TITLE -->
+                                <!-- SIDEBAR BUTTONS -->
+                                
+                                <div class="profile-userbuttons">
+                                    <a href="{{ path('showPost', {'id': postCards.id}) }}" class="btn yellow-crusta">
+                                        READ MORE
+                                    </a>
+                                </div>
+                                <!-- END SIDEBAR BUTTONS -->
+                                
+                            </div>
+                        </div>    
+
+                    {% endfor %}
+                    <!-- END POSTS -->
+
+                </div>
+                 
+
+                 
                  <!-- END: TABLA USUARIOS -->
                  <div id="verplantilla" class="modal container fade" tabindex="-1">
                  </div>
@@ -56,9 +87,13 @@
              </div>
          </div>
 
-     </div>
+        </div>
      </div>
      <!-- END CONTENT -->
+
+
+        
+
 
      <script>
 
