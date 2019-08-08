@@ -136,40 +136,51 @@ class PostsController extends Controller
         
     }
 
+
     /**
-     * @Route("/editPostAction", name="editPost")
+     * @Route("/showModalEditPostAction/{id}", name="showModalEditPostAction")
+     * Method({"GET", "POST"})
+     * @param Request $request
+     * @return View
+     */
+    public function showModalEditPostAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $poster = $em->getRepository('ModelBundle:Post')->findOneBy(array('id' => $id ));
+
+        $id = $poster->getId();
+
+
+        return $this->render('PostsBundle:Ajax:editPost.html.twig', array(
+            'poster' => $poster, 'id' => $id
+        ));
+    }
+
+    /**
+     * @Route("/editPostAction", name="editPostAction")
      * Method({"GET", "POST"})
      */
     public function editPostAction(Request $request) {
-        
+
+
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('ModelBundle:Post')->find($request->request->get('idUsuario'));
+        
+        $post = $em->getRepository('ModelBundle:Post')->find($request->request->get('postId'));
 
 
         Try {
 
-            if($user->getUsername() != $user->setUsername($request->request->get('usernameWeare'))){
-                $user->setUsername($request->request->get('usernameWeare'));
+            if($post->getTitlePost() != $post->setTitlePost($request->request->get('postTitle'))){
+                $post->setTitlePost($request->request->get('postTitle'));
             }
 
-            if($user->getName() != $user->setName($request->request->get('nameWeare'))){
-                $user->setName($request->request->get('nameWeare'));
-            }
-
-            if($user->getLastname() != $user->setLastname($request->request->get('lastnameWeare'))){
-                $user->setLastname($request->request->get('lastnameWeare'));
-            }
-
-            if($user->getAge() != $user->setAge($request->request->get('ageWeare'))){
-                $user->setAge($request->request->get('ageWeare'));
-            }
-
-            if($user->getGender() != $user->setGender($request->request->get('genderWeare'))){
-                $user->setGender($request->request->get('genderWeare'));
+            if($post->getPostText() != $post->setPostText($request->request->get('postText'))){
+                $post->setPostText($request->request->get('postText'));
             }
 
             
-            if($user->getPath() == null){
+            if($post->getPath() == null){
                 $dir = $this->getParameter('upload_directory');
                 $name = uniqid() . '.jpeg';
                 $avatar = true;
@@ -182,7 +193,7 @@ class PostsController extends Controller
                 }
             }else{
                 $dir = $this->getParameter('upload_directory');
-                $name = $user->getPath();
+                $name = $post->getPath();
                 $avatar = false;
                 foreach ($request->files as $uploadedFile) {
                     if ($uploadedFile != null) {
@@ -194,11 +205,11 @@ class PostsController extends Controller
             }
 
             if ($avatar) {
-                $user->setPath($name);
+                $post->setPath($name);
             }
 
 
-            $em->persist($user);
+            $em->persist($post);
             $em->flush();
 
             $response = array("code" => 100, "success" => true);

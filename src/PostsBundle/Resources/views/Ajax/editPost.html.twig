@@ -1,0 +1,72 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title">Edit Post : {{ poster.titlePost }}</h4>
+        </div>
+        <div class="modal-body">
+            <div class="col-md-10 col-md-offset-1">
+                <form class="form-horizontal" role="form" id="formEditPost" action="{{ path('editPostAction') }}" method="POST">
+                <input type="hidden" id="postId" name="postId" value="{{ id }}">
+                    <div class="form-body">
+                        <div class="form-group">
+
+                            <label class="col-md-6 control-label margin-top-20" style="padding-top:1px !important;">Post Image</label>
+                            <div class="col-md-6 margin-top-20">
+                                <input type="file" class=" c-font-14" id="fotoPost" name="fotoPost" accept="image/x-png,image/gif,image/jpeg">
+                            </div>
+
+                            <label class="col-md-6 control-label margin-top-20" style="padding-top:1px !important;">Title</label>
+                            <div class="col-md-6 margin-top-20">
+                                <textarea rows="2" cols="50" class="form-control" placeholder="Title" id="postTitle" name="postTitle" >{{ poster.titlePost }}</textarea>
+                            </div>
+
+                            <label class="col-md-6 control-label margin-top-20" style="padding-top:1px !important;">Post</label>
+                            <div class="col-md-6 margin-top-20">
+                                <textarea rows="8" cols="50" class="form-control" placeholder="Content" id="postText" name="postText" >{{ poster.postText }}</textarea>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn default" data-dismiss="modal">Close it</button>
+            <button type="button" class="btn blue" onclick="sendDataEditPost()">Save it</button>
+        </div>
+    </div>
+</div>
+<script>
+
+    function sendDataEditPost() {
+
+        //$('#crearCompetenciaFichaBase').modal('hide');
+        $.blockUI({baseZ: 20000, message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/cbp-loading.gif') }}" /> Guardando datos, por favor espere...</h4>'});
+        var form = document.getElementById("formEditPost");
+        var formData = new FormData(form);
+        $.ajax({
+            url: '{{ path('editPostAction') }}',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                Notificacion("success", "Survey Projext X", "Everything worked just fine.");
+                $('#editPost').modal('hide');
+                $.unblockUI();
+                $('#sample_2').load(window.location + ' #sample_2 >  *');
+
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Notificacion("error", "Survey Projext X", "ummmmm there is something wrong cowboy.");
+                $.unblockUI();
+            }
+        });
+    }
+
+</script>
+
