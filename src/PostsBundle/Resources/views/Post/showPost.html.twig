@@ -29,17 +29,28 @@
                             <div class="profile-usertitle-job">
                                 <p> {{ post.postText }} </p>
                             </div>
-                            <h1>{{ post.id }}</h1>
                         </div>
                         <!-- END SIDEBAR USER TITLE -->
                         <!-- SIDEBAR BUTTONS -->
+
+
+
+                        {% for postsUser in postsUserLogged %}
+
+                            {% if  post.id == postsUser.id %}
+                                <div class="profile-userbuttons">
+                                    <a class="btn blue" data-toggle="modal"
+                                        onclick="editPost()"> <i class="fa fa-pencil"></i> 
+                                        EDIT 
+                                    </a>
+                                </div>   
+                            {% else %}   
+                                
+                            {% endif %}
+
+                        {% endfor %}    
                         
-                        <div class="profile-userbuttons">
-                            <a class="btn blue" data-toggle="modal"
-                                onclick="editPost()"> <i class="fa fa-pencil"></i> 
-                                EDIT 
-                            </a>
-                        </div>
+                        
                         <!-- END SIDEBAR BUTTONS -->
                         
                     </div>
@@ -60,7 +71,7 @@
     <script>
 
         function editPost() {
-             $.blockUI({ message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/cbp-loading.gif') }}" /> Cargando datos, por favor espere...</h4>' });
+             $.blockUI({ message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/infinity.svg') }}" /> Cargando datos, por favor espere...</h4>' });
              $( "#editPost" ).load( "{{ path('showModalEditPostAction', {'id': post.id}) }}", function() {
                  $('#editPost').modal('show');
                  $.unblockUI();

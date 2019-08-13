@@ -55,10 +55,15 @@ class PostsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository('ModelBundle:Post')->findOneBy(array('id' => $id ));
 
-    
+        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+        $postsUserLogged = $em->getRepository('ModelBundle:Post')->findBy(array('userId' => $userLogged->getId() ));
+
+        //var_dump($postsUserLogged);die;
+        //var_dump($post->getUserId());die;
+
 
         return $this->render('PostsBundle:Post:showPost.html.twig', array(
-            'post' => $post, 
+            'post' => $post, 'postsUserLogged' => $postsUserLogged, 'userPost' => $post->getUserId()
         ));
     }
 
@@ -226,15 +231,48 @@ class PostsController extends Controller
 
 
 
+    /**
+     * @Route("/deletePostAction", name="deletePostAction")
+     * Method({"GET", "POST"})
+     */
+    public function deletePostAction(Request $request)
+    {
+        
+        $em = $this->getDoctrine()->getManager();
+        $postToDelete = $em->getRepository('ModelBundle:Post')->find($request->request->get('postId'));
+
+        $posts = $em->getRepository('ModelBundle:Post')->findAll();
+
+
+        Try {
+
+            $em->remove($postToDelete);
+            $em->flush();
+
+
+            $response = array("code" => 100, "success" => true);
+            $response = new Response(json_encode($response));
+            $response->headers->set('Content-Type', 'application/json');
+
+        } Catch(Exception $e){
+            $response = array("code" => 100, "success" => false, "error" => $e);
+            return new Response($response);
+        }
+
+
+        return $this->render('PostsBundle:Post:posts.html.twig', array(
+            'posts' => $posts,
+            
+        ));
+        
+        
+    }
+
+
+
     
 
 
 }
-
-
-
-
-
-
 
 ?>

@@ -76,6 +76,9 @@
                 $('#crearPost').modal('hide');
                 $.unblockUI();
                 $('#sample_2').load(window.location + ' #sample_2 >  *');
+                setTimeout(function(){
+                    location.reload(); 
+                }, 1000); 
 
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {

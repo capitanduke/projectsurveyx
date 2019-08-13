@@ -36,6 +36,7 @@
         <div class="modal-footer">
             <button type="button" class="btn default" data-dismiss="modal">Close it</button>
             <button type="button" class="btn blue" onclick="sendDataEditPost()">Save it</button>
+            <button type="button" class="btn red" onclick="sendDataDeletePost()">Delete it</button>
         </div>
     </div>
 </div>
@@ -44,7 +45,7 @@
     function sendDataEditPost() {
 
         //$('#crearCompetenciaFichaBase').modal('hide');
-        $.blockUI({baseZ: 20000, message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/cbp-loading.gif') }}" /> Guardando datos, por favor espere...</h4>'});
+        $.blockUI({baseZ: 20000, message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/infinity.svg') }}" /> Guardando datos, por favor espere...</h4>'});
         var form = document.getElementById("formEditPost");
         var formData = new FormData(form);
         $.ajax({
@@ -59,6 +60,42 @@
                 $('#editPost').modal('hide');
                 $.unblockUI();
                 $('#sample_2').load(window.location + ' #sample_2 >  *');
+                setTimeout(function(){
+                    location.reload(); 
+                }, 1000); 
+
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Notificacion("error", "Survey Projext X", "ummmmm there is something wrong cowboy.");
+                $.unblockUI();
+            }
+        });
+    }
+
+
+    function sendDataDeletePost() {
+
+        //$('#crearCompetenciaFichaBase').modal('hide');
+        $.blockUI({baseZ: 20000, message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/infinity.svg') }}" /> Guardando datos, por favor espere...</h4>'});
+        var form = document.getElementById("formEditPost");
+        var formData = new FormData(form);
+        $.ajax({
+            url: '{{ path('deletePostAction') }}',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                Notificacion("success", "Survey Projext X", "Everything worked just fine.");
+                $('#editPost').modal('hide');
+                $.unblockUI();
+                $('#sample_2').load(window.location + ' #sample_2 >  *');
+                url = "../posts";
+                window.location.replace(url);
+                /*setTimeout(function(){
+                    location.reload(); 
+                }, 1000); */
 
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {

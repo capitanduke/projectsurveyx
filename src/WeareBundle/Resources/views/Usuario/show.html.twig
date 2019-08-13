@@ -183,11 +183,11 @@
 									<div class="portlet-title">
 										<div class="caption caption-md">
 										POST: <br>
-										{% for post in posts %}
+										{#{% for post in posts %}#}
 												
-											<h1 style="color:#000;">{{ post.postText }}</h1>
+											<!--<h1 style="color:#000;">{#{{ post.postText }}#}</h1>-->
 									
-										{% endfor %}
+										{#{% endfor %}#}
 										</div>
 										<div class="actions">
 											<div class="btn-group btn-group-devided" data-toggle="buttons">
@@ -1457,7 +1457,7 @@
   
        function sendDataEditUserDetails() {
 
-            $.blockUI({ message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/cbp-loading.gif') }}" /> Guardando datos, por favor espere...</h4>' });
+            $.blockUI({ message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/infinity.svg') }}" /> Guardando datos, por favor espere...</h4>' });
             //var form = document.getElementById("idUsuario").value;
 
             var form=document.getElementById("formEditMantenimientoUserDetails");

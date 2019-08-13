@@ -33,8 +33,16 @@
 
                 <div class="col-md-12">
 
+
+
+                    
+
                     <!-- POSTS -->
                     {% for postCards in posts %}
+
+
+
+                    {% if postCards.id > 0 %}
 
                         <div class="col-md-2" style="max-height:5em;">
                             <div class="portlet light profile-sidebar-portlet">
@@ -63,7 +71,15 @@
                                 <!-- END SIDEBAR BUTTONS -->
                                 
                             </div>
-                        </div>    
+                        </div> 
+                          
+                    {% else %}  
+
+                    There is no posts 
+                        
+                    {% endif %}
+
+                           
 
                     {% endfor %}
                     <!-- END POSTS -->
