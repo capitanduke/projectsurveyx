@@ -33,7 +33,10 @@
                         <!-- END SIDEBAR USER TITLE -->
                         <!-- SIDEBAR BUTTONS -->
 
+                        <h1>Likes -> {{ likes|length }}</h1>
+                        
 
+                        
 
                         {% for postsUser in postsUserLogged %}
 
@@ -48,7 +51,21 @@
                                 
                             {% endif %}
 
-                        {% endfor %}    
+                            
+
+                        {% endfor %}  
+
+                        <form class="form-horizontal" role="form" id="likeAction" action="{{ path('addLikeAction', {'id': post.id}) }}" method="POST">
+
+                            <a class="btn blue"
+                                onclick="likePost()"> <i class="fa fa-heart"></i> 
+                                LIKE 
+                            </a>
+
+                        </form>
+                           
+                        
+                        
                         
                         
                         <!-- END SIDEBAR BUTTONS -->
@@ -77,6 +94,32 @@
                  $.unblockUI();
              });
          }
+
+        function likePost() {
+
+            $.blockUI({baseZ: 20000, message: '<h4><img src="{{ asset('assets/global/plugins/cubeportfolio/cubeportfolio/img/infinity.svg') }}" /> Guardando datos, por favor espere...</h4>'});
+            var form = document.getElementById("likeAction");
+            var formData = new FormData(form);
+            $.ajax({
+                url: '{{ path('addLikeAction', {'id': post.id}) }}',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (returndata) {
+                    Notificacion("success", "Survey Projext X", "Everything worked just fine.");
+                    $('#editPost').modal('hide');
+                    $.unblockUI();
+                    $('#sample_2').load(window.location + ' #sample_2 >  *');
+
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    Notificacion("error", "Survey Projext X", "ummmmm there is something wrong cowboy.");
+                    $.unblockUI();
+                }
+            });
+        }
 
 
     </script>

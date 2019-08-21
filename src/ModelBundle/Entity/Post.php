@@ -26,6 +26,13 @@ class Post
      */
     private $userId;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="Likes", mappedBy="postId")
+     */
+    private $likes;
+
+
     /**
      * @ORM\Column(name="title", type="string")
      */
@@ -152,4 +159,58 @@ class Post
 
         return $this;
     }
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
+
+
+    /**
+     * Set Likes
+     *
+     * @param string $likes
+     *
+     * @return Likes
+     */
+    public function setLikes($likes)
+    {
+        $this->likes = $likes;
+
+        return $this;
+    }
+
+    /**
+     * Get Likes
+     *
+     * @return string
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * Add Likes
+     *
+     *
+     * @return Likes
+     */
+    public function addLikes(Likes $likes)
+    {
+        $this->likes[] = $likes;
+
+        return $this;
+    }
+
+    /**
+     * Remove Likes
+     *
+     */
+    public function removeLikes(Likes $likes)
+    {
+        $this->likes->removeElement($likes);
+    }
+
+    
 }
