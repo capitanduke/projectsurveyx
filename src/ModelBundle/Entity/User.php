@@ -69,10 +69,18 @@ class User extends BaseUser implements UserInterface
     *  @ORM\OneToMany(targetEntity="Post", mappedBy="user")
     */
     private $posts;
+
+
+    /**
+    * One user has many likes. This is the inverse side.
+    *  @ORM\OneToMany(targetEntity="Likes", mappedBy="user")
+    */
+    private $likes;
     
 
     public function __construct() {
         $this->posts = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
 
@@ -205,6 +213,26 @@ class User extends BaseUser implements UserInterface
     public function setPosts($posts)
     {
         $this->posts = $posts;
+
+        return $this;
+    }
+
+    /**
+     * Get one user has many posts. This is the inverse side.
+     */ 
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * Set one user has many posts. This is the inverse side.
+     *
+     * @return  self
+     */ 
+    public function setLikes($likes)
+    {
+        $this->likes = $likes;
 
         return $this;
     }

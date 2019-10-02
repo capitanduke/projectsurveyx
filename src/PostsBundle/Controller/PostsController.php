@@ -32,6 +32,85 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PostsController extends Controller
 {
+
+
+    /**
+     * @Route("/addLikeAction/{id}", name="addLikeAction")
+     * Method({"GET", "POST"})
+     */
+    public function addLikeAction(Request $request, $id)
+    {
+
+
+        Try{
+
+
+            /* VALIDACION */
+            $em = $this->getDoctrine()->getManager();
+            $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+            $postLike = $em->getRepository('ModelBundle:Likes')->findOneBy(array('userId' => $userLogged ));
+
+            if( IsNull($postLike->getPostId()) ){
+
+                $post = $em->getRepository('ModelBundle:Post')->findOneBy(array('id' => $id ));
+                $userId = $this->get('security.token_storage')->getToken()->getUser();
+    
+                $like = new Likes();
+    
+                $like->setUserId($userId);
+                
+                $like->setPostId($post);
+    
+                $em->persist($like);
+                $em->flush();
+    
+                $response = array("code" => 100, "success" => true );
+                $response = new Response(json_encode($response));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+                
+            } elseif($id !== $postLike->getPostId() ){
+
+                $post = $em->getRepository('ModelBundle:Post')->findOneBy(array('id' => $id ));
+                $userId = $this->get('security.token_storage')->getToken()->getUser();
+    
+                $like = new Likes();
+    
+                $like->setUserId($userId);
+                
+                $like->setPostId($post);
+    
+                $em->persist($like);
+                $em->flush();
+    
+                $response = array("code" => 100, "success" => true );
+                $response = new Response(json_encode($response));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+    
+            } else {
+                
+                $response = array("code" => 100, "success" => false, "error" => $e);
+                return new Response($response);
+    
+            }
+               
+
+        
+
+
+        }Catch(Exception $e){
+            $response = array("code" => 100, "success" => false, "error" => $e);
+            return new Response($response);
+        }
+
+       
+        
+    }
+
+
+
+
     /**
     * @Route("/posts", name="posts")
     */
@@ -71,40 +150,7 @@ class PostsController extends Controller
 
 
 
-    /**
-     * @Route("/addLikeAction/{id}", name="addLikeAction")
-     * Method({"GET", "POST"})
-     */
-    public function addLikeAction(Request $request, $id)
-    {
-        
-        $em = $this->getDoctrine()->getManager();
-
-        $post = $em->getRepository('ModelBundle:Post')->findOneBy(array('id' => $id ));
-
-
-        /* VALIDACION */
-        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
-        //$postUser = $post->getUserId();
-
-        var_dump($post);die;
-
-
-        /* END VALIDACION */
-
-        $like = new Likes();
-        
-        $like->setPostId($post);
-
-        $em->persist($like);
-        $em->flush();
-
-        $response = array("code" => 100, "success" => true );
-        $response = new Response(json_encode($response));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-        
-    }
+    
 
 
 
