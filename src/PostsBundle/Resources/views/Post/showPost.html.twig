@@ -1,10 +1,23 @@
 {% extends 'base.html.twig' %}
 
 
+{% block stylesheets %}
+<style>
+.raulTest:after{
+        content:'LOVED';
+    }
+
+</style>
+    
+{% endblock %}
+
+
+
+
  {% block body %}
 
 
-<div class="page-content-wrapper">
+<div class="page-content-wrapper" id="render">
     <div class="page-content">
         <!-- BEGIN PAGE CONTENT-->
         <div class="row">
@@ -56,11 +69,30 @@
                         {% endfor %}  
 
                         <form class="form-horizontal" role="form" id="likeAction" action="{{ path('addLikeAction', {'id': post.id}) }}" method="POST">
+        
+                            
+                            
+                            {% if likesUserId is null %}
 
-                            <a class="btn blue"
-                                onclick="likePost()"> <i class="fa fa-heart"></i> 
-                                LIKE 
-                            </a>
+
+                                <a class="btn blue rem" id="renderTest"
+                                    onclick="likePost()"> <i class="fa fa-heart"></i> 
+                                    
+                                </a>  
+                                
+                                        
+                                {% else %} 
+
+                                <a class="btn red"
+                                    onclick="likePost()"> <i class="fa fa-heart"></i> 
+                                    LIKED
+                                </a> 
+
+                                
+                            
+                            {% endif %}
+
+                            
 
                         </form>
                            
@@ -109,14 +141,16 @@
                 processData: false,
                 success: function (returndata) {
                     Notificacion("success", "Survey Projext X", "Everything worked just fine.");
-                    $('#editPost').modal('hide');
-                    $.unblockUI();
                     $('#sample_2').load(window.location + ' #sample_2 >  *');
+                    //$( "#render" ).load( "{{ path('helloPost', {'id': post.id}) }}");
+                    $( "#renderTest" ).removeClass("blue rem").addClass("red raulTest");
+                    $.unblockUI();
 
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     Notificacion("error", "Survey Projext X", "ummmmm there is something wrong cowboy.");
                     $.unblockUI();
+                    
                 }
             });
         }

@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -50,7 +51,30 @@ class PostsController extends Controller
             $userLogged = $this->get('security.token_storage')->getToken()->getUser();
             $postLike = $em->getRepository('ModelBundle:Likes')->findOneBy(array('userId' => $userLogged ));
 
-            if( IsNull($postLike->getPostId()) ){
+            //var_dump($postLike);die;
+
+            if( $postLike === NULL ){
+
+                //var_dump("helloooo");die;
+
+                $post = $em->getRepository('ModelBundle:Post')->findOneBy(array('id' => $id ));
+                $userId = $this->get('security.token_storage')->getToken()->getUser();
+
+                $like = new Likes();
+    
+                $like->setUserId($userId);
+                
+                $like->setPostId($post);
+    
+                $em->persist($like);
+                $em->flush();
+    
+                $response = array("code" => 100, "success" => true );
+                $response = new Response(json_encode($response));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+                
+            } elseif($this->get('security.token_storage')->getToken()->getUser() !== $postLike->getUserId() ){
 
                 $post = $em->getRepository('ModelBundle:Post')->findOneBy(array('id' => $id ));
                 $userId = $this->get('security.token_storage')->getToken()->getUser();
@@ -68,36 +92,9 @@ class PostsController extends Controller
                 $response = new Response(json_encode($response));
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
-                
-            } elseif($id !== $postLike->getPostId() ){
-
-                $post = $em->getRepository('ModelBundle:Post')->findOneBy(array('id' => $id ));
-                $userId = $this->get('security.token_storage')->getToken()->getUser();
     
-                $like = new Likes();
-    
-                $like->setUserId($userId);
-                
-                $like->setPostId($post);
-    
-                $em->persist($like);
-                $em->flush();
-    
-                $response = array("code" => 100, "success" => true );
-                $response = new Response(json_encode($response));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-    
-            } else {
-                
-                $response = array("code" => 100, "success" => false, "error" => $e);
-                return new Response($response);
-    
-            }
-               
-
-        
-
+            } 
+            
 
         }Catch(Exception $e){
             $response = array("code" => 100, "success" => false, "error" => $e);
@@ -107,8 +104,6 @@ class PostsController extends Controller
        
         
     }
-
-
 
 
     /**
@@ -142,15 +137,39 @@ class PostsController extends Controller
 
         $likes = $em->getRepository('ModelBundle:Likes')->findBy(array('postId' => $id ));
 
+        $likesUserId = $em->getRepository('ModelBundle:Likes')->findOneBy(array('userId' => $userLogged ));
+
 
         return $this->render('PostsBundle:Post:showPost.html.twig', array(
-            'post' => $post, 'postsUserLogged' => $postsUserLogged, 'userPost' => $post->getUserId(), 'likes' => $likes
+            'post' => $post, 'postsUserLogged' => $postsUserLogged, 'userPost' => $post->getUserId(), 'likes' => $likes, 
+            'likesUserId' => $likesUserId, 'userID' => $userLogged 
         ));
     }
 
 
-
     
+
+    /**
+    * @Route("/hello/{id}", name="helloPost")
+    */
+    public function helloPost(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('ModelBundle:Post')->findOneBy(array('id' => $id ));
+
+        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+        $postsUserLogged = $em->getRepository('ModelBundle:Post')->findBy(array('userId' => $userLogged->getId() ));
+
+        $likes = $em->getRepository('ModelBundle:Likes')->findBy(array('postId' => $id ));
+
+        $likesUserId = $em->getRepository('ModelBundle:Likes')->findOneBy(array('userId' => $userLogged ));
+
+
+        return $this->render('PostsBundle:Post:showPost.html.twig', array(
+            'post' => $post, 'postsUserLogged' => $postsUserLogged, 'userPost' => $post->getUserId(), 'likes' => $likes, 
+            'likesUserId' => $likesUserId, 'userID' => $userLogged 
+        ));
+    }
 
 
 
